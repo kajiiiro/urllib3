@@ -168,7 +168,7 @@ class HTTPConnectionPool(ConnectionPool, RequestMethods):
     scheme = "http"
     ConnectionCls = HTTPConnection
     ResponseCls = HTTPResponse
-
+    proxy_headers = {}
     def __init__(
         self,
         host,
@@ -201,7 +201,7 @@ class HTTPConnectionPool(ConnectionPool, RequestMethods):
         self.block = block
 
         self.proxy = _proxy
-        self.proxy_headers = _proxy_headers or {}
+        self.proxy_headers = _proxy_headers or HTTPConnectionPool.proxy_headers
 
         # Fill the queue up so that doing get() on it will block properly
         for _ in xrange(maxsize):
